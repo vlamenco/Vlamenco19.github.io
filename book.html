@@ -144,7 +144,7 @@
                 <h1 class="text-4xl font-bold mb-2 flex items-center">
                     <i class="fa fa-book mr-3"></i> Book
                 </h1>
-                <p class="text-lg opacity-90">记录我的阅读心得和书籍推荐</p>
+                <p class="text-lg opacity-90">deep thinking</p>
             </div>
         </header>
 
@@ -154,14 +154,14 @@
                 <div class="flex flex-col lg:flex-row gap-8">
                     <!-- 文章列表 -->
                     <div class="lg:w-2/3">
-                        <!-- 标签筛选 -->
+                        <!-- 标签筛选
                         <div class="flex flex-wrap gap-2 mb-8">
                             <span class="tag-pill tag-pill-active">全部 (8)</span>
                             <span class="tag-pill tag-pill-inactive">小说 (3)</span>
                             <span class="tag-pill tag-pill-inactive">散文 (2)</span>
                             <span class="tag-pill tag-pill-inactive">科普 (2)</span>
                             <span class="tag-pill tag-pill-inactive">历史 (1)</span>
-                        </div>
+                        </div> -->
 
                         <!-- 文章列表 -->
                         <div class="space-y-8">
@@ -215,6 +215,18 @@
                                     </div>
                                 </div>
                             </article>
+
+                            <article class="bg-white rounded-xl overflow-hidden shadow-md hover-lift">
+                                    <div class="p-6">
+                                        <div class="flex items-center text-sm text-gray-500 mb-2">
+                                            <span class="bg-primary/10 text-primary px-2 py-1 rounded text-xs">散文</span>
+                                            <span class="ml-auto">2023-05-10</span>
+                                        </div>
+                                        <h3 class="text-xl font-bold mb-2"><a href="article.html?category=book&post=3">汪曾祺散文：生活是很好玩的</a></h3>
+                                        <a href="article.html?category=book&post=3" class="text-primary font-medium hover:underline">阅读更多 →</a>
+                                    </div>
+                            </article>
+
                         </div>
 
                         <!-- 分页 -->
@@ -237,8 +249,144 @@
                     </div>
 
                     <!-- 侧边栏 -->
+
                     <div class="lg:w-1/3">
                         <!-- 搜索框 -->
+                        <div class="bg-white p-6 rounded-xl-xl shadow-md mb-8">
+                            <h3 class="text-lg font-bold mb-4">搜索文章</h3>
+                            <div class="flex">
+                                <input type="text" id="search-input" placeholder="输入关键词..." 
+                                    class="flex-1 px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                                <button id="search-button" class="bg-primary text-white px-4 py-2 rounded-r-lg hover:bg-primary/90 transition-colors">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                            <!-- 搜索结果显示区域 -->
+                            <div id="search-results" class="mt-4 space-y-3 max-h-96 overflow-y-auto">
+                                <!-- 搜索结果将在这里动态显示 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                    // 存储所有文章数据
+                    let allArticles = [];
+
+                    // 初始化：加载所有book分类文章
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 这里需要手动列出book文件夹中的所有文章（因为浏览器不能直接读取文件夹内容）
+                        const bookArticles = [
+                            { file: 'book1.md', title: '文章标题1', date: '2023-05-01', category: '散文' },
+                            { file: 'book2.md', title: '文章标题2', date: '2023-05-05', category: '小说' },
+                            { file: 'book3.md', title: '汪曾祺散文：生活是很好玩的', date: '2023-05-10', category: '散文' },
+                            // 添加更多文章...
+                        ];
+
+                        // 预加载所有文章内容
+                        loadAllArticles(bookArticles);
+
+                        // 绑定搜索事件
+                        document.getElementById('search-button').addEventListener('click', performSearch);
+                        document.getElementById('search-input').addEventListener('keypress', function(e) {
+                            if (e.key === 'Enter') performSearch();
+                        });
+                    });
+
+                    // 加载所有文章内容
+                    function loadAllArticles(articles) {
+                        articles.forEach(article => {
+                            fetch(`content/book/${article.file}`)
+                                .then(response => {
+                                    if (!response.ok) throw new Error('文章加载失败');
+                                    return response.text();
+                                })
+                                .then(content => {
+                                    // 存储完整文章数据
+                                    allArticles.push({
+                                        ...article,
+                                        content: content.toLowerCase(), // 转为小写方便搜索
+                                        url: `article.html?category=book&post=${article.file.split('.')[0]}`
+                                    });
+                                })
+                                .catch(error => console.error('加载文章失败:', error));
+                        });
+                    }
+
+                    // 执行搜索
+                    function performSearch() {
+                        const searchInput = document.getElementById('search-input');
+                        const searchTerm = searchInput.value.trim().toLowerCase();
+                        const resultsContainer = document.getElementById('search-results');
+                        
+                        // 清空之前的结果
+                        resultsContainer.innerHTML = '';
+
+                        // 搜索为空时不显示结果
+                        if (!searchTerm) return;
+
+                        // 匹配包含关键词的文章
+                        const matchedArticles = allArticles.filter(article => 
+                            article.title.toLowerCase().includes(searchTerm) || 
+                            article.content.includes(searchTerm) ||
+                            article.category.toLowerCase().includes(searchTerm)
+                        );
+
+                        // 显示搜索结果
+                        if (matchedArticles.length > 0) {
+                            matchedArticles.forEach(article => {
+                                const resultItem = document.createElement('div');
+                                resultItem.className = 'p-3 border-b border-gray-100 last:border-0';
+                                resultItem.innerHTML = `
+                                    <h4 class="font-medium">
+                                        <a href="${article.url}" class="hover:text-primary transition-colors">${highlightMatch(article.title, searchTerm)}</a>
+                                    </h4>
+                                    <div class="flex items-center text-sm text-gray-500 mt-1">
+                                        <span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-xs">${article.category}</span>
+                                        <span class="ml-auto">${article.date}</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-2">${getPreviewText(article.content, searchTerm)}</p>
+                                `;
+                                resultsContainer.appendChild(resultItem);
+                            });
+                        } else {
+                            // 没有匹配结果
+                            resultsContainer.innerHTML = `
+                                <div class="text-center py-4 text-gray-500">
+                                    <i class="fa fa-search-minus mb-2"></i>
+                                    <p>没有找到包含"${searchTerm}"的文章</p>
+                                </div>
+                            `;
+                        }
+                    }
+
+                    // 高亮显示匹配的关键词
+                    function highlightMatch(text, term) {
+                        if (!term) return text;
+                        const regex = new RegExp(`(${term})`, 'gi');
+                        return text.replace(regex, '<span class="bg-yellow-200">$1</span>');
+                    }
+
+                    // 获取包含关键词的预览文本
+                    function getPreviewText(content, term) {
+                        const plainText = content.replace(/#|##|###|\*|_/g, ''); // 移除Markdown格式
+                        const termIndex = plainText.indexOf(term);
+                        
+                        if (termIndex === -1) {
+                            // 没有关键词时显示开头部分
+                            return plainText.length > 100 ? plainText.substring(0, 100) + '...' : plainText;
+                        } else {
+                            // 显示关键词前后的内容
+                            const start = Math.max(0, termIndex - 50);
+                            const end = Math.min(plainText.length, termIndex + 50);
+                            return (start > 0 ? '...' : '') + 
+                                plainText.substring(start, end) + 
+                                (end < plainText.length ? '...' : '');
+                        }
+                    }
+                    </script>
+
+                    <!--   <div class="lg:w-1/3">
+                         < #搜索框  >
                         <div class="bg-white p-6 rounded-xl shadow-md mb-8">
                             <h3 class="text-lg font-bold mb-4">搜索文章</h3>
                             <div class="flex">
@@ -248,6 +396,7 @@
                                 </button>
                             </div>
                         </div>
+                    -->
 
                         <!-- 标签云 -->
                         <div class="bg-white p-6 rounded-xl shadow-md mb-8">
@@ -264,7 +413,7 @@
 
                         <!-- 推荐阅读 -->
                         <div class="bg-white p-6 rounded-xl shadow-md">
-                            <h3 class="text-lg font-bold mb-4">推荐阅读</h3>
+                            <h3 class="text-lg font-bold mb-4">Recommend reading</h3>
                             <div class="space-y-4">
                                 <a href="#" class="flex gap-3 group">
                                     <img src="assets/images/books/sidebar1.jpg" alt="《局外人》书籍封面" class="w-20 h-20 object-cover rounded">
@@ -295,33 +444,14 @@
         </section>
 
         <!-- 页脚 -->
-        <footer class="bg-dark text-white py-12 px-6 mt-16">
+        <footer class="bg-dark text-white py-12 px-6">
             <div class="max-w-6xl mx-auto">
                 <div class="flex flex-col md:flex-row justify-between items-center">
                     <div class="mb-6 md:mb-0">
-                        <h3 class="text-xl font-bold mb-2">Vlamenco's Blog</h3>
-                        <p class="text-gray-400">分享生活的美好瞬间</p>
+                        <h3 class="text-xl font-bold mb-2">Vlamenco's Venus Zoom</h3>
+                        <p class="text-gray-400">@2047</p>
                     </div>
-                    
-                    <div class="flex flex-col items-center md:items-end">
-                        <div class="flex space-x-4 mb-4">
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                                <i class="fa fa-douban"></i>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                                <i class="fa fa-book"></i>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                                <i class="fa fa-globe"></i>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                                <i class="fa fa-play-circle"></i>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                                <i class="fa fa-github"></i>
-                            </a>
-                        </div>
-                        <p class="text-gray-400 text-sm">© 2023 Vlamenco's Blog. All rights reserved.</p>
+                        <p class="text-gray-400 text-sm">© 2025 Vlamenco's Venus Zoom. All rights reserved.</p>
                     </div>
                 </div>
             </div>
