@@ -2,15 +2,17 @@
 
 这是一个基于HTML、CSS和JavaScript的个人博客网站，采用清新的多巴胺风格设计，使用GitHub作为存储方式。
 
+https://vlamenco.github.io/Vlamenco19.github.io/index.html
+
 ## 项目结构
 
-vlamenco-blog/                 # 项目根目录
-├── .github/                   # GitHub配置文件
-├── archetypes/                # 文章模板
-├── assets/                    # 静态资源
-│   ├── css/                   # 自定义CSS
-│   ├── js/                    # 交互JavaScript
-│   └── images/                # 图片资源
+vlamenco-blog               # 项目根目录
+├── .github                    # GitHub配置文件
+├── archetypes               # 文章模板
+├── assets                     # 静态资源
+│   ├── css                    # 自定义CSS
+│   ├── js                     # 交互JavaScript
+│   └── images                 # 图片资源
 │       ├── header-image.jpg   # 主页面大图像
 │       └── profile.jpg        # 个人照片
 ├── content/                   # 文章内容（markdown文件）
@@ -32,6 +34,17 @@ vlamenco-blog/                 # 项目根目录
 ├── package.json               # 项目依赖
 ├── postcss.config.js          # PostCSS配置
 └── README.md                  # 项目说明
+
+.
+├── archetypes: default.md是生成博文的模版
+├── assets # 存放被 Hugo Pipes 处理的文件
+├── content # 存放markdown文件作为博文内容
+├── data # 存放 Hugo 处理的数据
+├── layouts # 存放布局文件
+├── static # 存放静态文件 图片 CSS JS文件
+├── themes: 存放不同的主题
+└── config.toml: 博客配置文件支持 JSON YAML TOML 三种格式配置文件
+
 
 ## 功能特点
 
