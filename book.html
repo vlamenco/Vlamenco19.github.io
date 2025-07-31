@@ -46,6 +46,9 @@
             .tag-pill-inactive {
                 @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
             }
+            .rating-badge {
+                @apply absolute bottom-4 right-4 bg-accent text-dark font-bold px-3 py-1 rounded-full text-sm shadow-md;
+            }
         }
     </style>
 </head>
@@ -153,19 +156,24 @@
             <div class="max-w-6xl mx-auto">
                 <div class="flex flex-col lg:flex-row gap-8">
                     <!-- 文章列表 -->
-                    <div class="lg:w-2/3">
-                        <!-- 标签筛选
+                    <div class="lg:w-full">
+                        <!-- 标签筛选 -->
                         <div class="flex flex-wrap gap-2 mb-8">
                             <span class="tag-pill tag-pill-active">全部 (8)</span>
                             <span class="tag-pill tag-pill-inactive">小说 (3)</span>
                             <span class="tag-pill tag-pill-inactive">散文 (2)</span>
                             <span class="tag-pill tag-pill-inactive">科普 (2)</span>
                             <span class="tag-pill tag-pill-inactive">历史 (1)</span>
-                        </div> -->
+                        </div>
 
                         <!-- 文章列表 -->
                         <div class="space-y-8">
-                            <article class="bg-white rounded-xl overflow-hidden shadow-md hover-lift">
+                            <article class="bg-white rounded-xl overflow-hidden shadow-md hover-lift relative">
+                                <!-- 评分标签 -->
+                                <div class="rating-badge">
+                                    <i class="fa fa-star mr-1"></i>9.4
+                                </div>
+                                
                                 <div class="md:flex">
                                     <div class="md:w-1/3">
                                         <img src="assets/images/books/book1.jpg" alt="《夏日终曲》书籍封面" class="w-full h-full object-cover">
@@ -182,7 +190,12 @@
                                 </div>
                             </article>
 
-                            <article class="bg-white rounded-xl overflow-hidden shadow-md hover-lift">
+                            <article class="bg-white rounded-xl overflow-hidden shadow-md hover-lift relative">
+                                <!-- 评分标签 -->
+                                <div class="rating-badge">
+                                    <i class="fa fa-star mr-1"></i>9.1
+                                </div>
+                                
                                 <div class="md:flex">
                                     <div class="md:w-1/3">
                                         <img src="assets/images/books/book2.jpg" alt="《人类简史》书籍封面" class="w-full h-full object-cover">
@@ -199,7 +212,12 @@
                                 </div>
                             </article>
 
-                            <article class="bg-white rounded-xl overflow-hidden shadow-md hover-lift">
+                            <article class="bg-white rounded-xl overflow-hidden shadow-md hover-lift relative">
+                                <!-- 评分标签 -->
+                                <div class="rating-badge">
+                                    <i class="fa fa-star mr-1"></i>8.8
+                                </div>
+                                
                                 <div class="md:flex">
                                     <div class="md:w-1/3">
                                         <img src="assets/images/books/book3.jpg" alt="《汪曾祺散文》书籍封面" class="w-full h-full object-cover">
@@ -215,18 +233,6 @@
                                     </div>
                                 </div>
                             </article>
-
-                            <article class="bg-white rounded-xl overflow-hidden shadow-md hover-lift">
-                                    <div class="p-6">
-                                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                                            <span class="bg-primary/10 text-primary px-2 py-1 rounded text-xs">散文</span>
-                                            <span class="ml-auto">2023-05-10</span>
-                                        </div>
-                                        <h3 class="text-xl font-bold mb-2"><a href="article.html?category=book&post=3">汪曾祺散文：生活是很好玩的</a></h3>
-                                        <a href="article.html?category=book&post=3" class="text-primary font-medium hover:underline">阅读更多 →</a>
-                                    </div>
-                            </article>
-
                         </div>
 
                         <!-- 分页 -->
@@ -246,198 +252,6 @@
                                 </a>
                             </nav>
                         </div>
-                    </div>
-
-                    <!-- 侧边栏 -->
-
-                    <div class="lg:w-1/3">
-                        <!-- 搜索框 -->
-                        <div class="bg-white p-6 rounded-xl-xl shadow-md mb-8">
-                            <h3 class="text-lg font-bold mb-4">搜索文章</h3>
-                            <div class="flex">
-                                <input type="text" id="search-input" placeholder="输入关键词..." 
-                                    class="flex-1 px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                                <button id="search-button" class="bg-primary text-white px-4 py-2 rounded-r-lg hover:bg-primary/90 transition-colors">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                            <!-- 搜索结果显示区域 -->
-                            <div id="search-results" class="mt-4 space-y-3 max-h-96 overflow-y-auto">
-                                <!-- 搜索结果将在这里动态显示 -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <script>
-                    // 存储所有文章数据
-                    let allArticles = [];
-
-                    // 初始化：加载所有book分类文章
-                    document.addEventListener('DOMContentLoaded', function() {
-                        // 这里需要手动列出book文件夹中的所有文章（因为浏览器不能直接读取文件夹内容）
-                        const bookArticles = [
-                            { file: 'book1.md', title: '文章标题1', date: '2023-05-01', category: '散文' },
-                            { file: 'book2.md', title: '文章标题2', date: '2023-05-05', category: '小说' },
-                            { file: 'book3.md', title: '汪曾祺散文：生活是很好玩的', date: '2023-05-10', category: '散文' },
-                            // 添加更多文章...
-                        ];
-
-                        // 预加载所有文章内容
-                        loadAllArticles(bookArticles);
-
-                        // 绑定搜索事件
-                        document.getElementById('search-button').addEventListener('click', performSearch);
-                        document.getElementById('search-input').addEventListener('keypress', function(e) {
-                            if (e.key === 'Enter') performSearch();
-                        });
-                    });
-
-                    // 加载所有文章内容
-                    function loadAllArticles(articles) {
-                        articles.forEach(article => {
-                            fetch(`content/book/${article.file}`)
-                                .then(response => {
-                                    if (!response.ok) throw new Error('文章加载失败');
-                                    return response.text();
-                                })
-                                .then(content => {
-                                    // 存储完整文章数据
-                                    allArticles.push({
-                                        ...article,
-                                        content: content.toLowerCase(), // 转为小写方便搜索
-                                        url: `article.html?category=book&post=${article.file.split('.')[0]}`
-                                    });
-                                })
-                                .catch(error => console.error('加载文章失败:', error));
-                        });
-                    }
-
-                    // 执行搜索
-                    function performSearch() {
-                        const searchInput = document.getElementById('search-input');
-                        const searchTerm = searchInput.value.trim().toLowerCase();
-                        const resultsContainer = document.getElementById('search-results');
-                        
-                        // 清空之前的结果
-                        resultsContainer.innerHTML = '';
-
-                        // 搜索为空时不显示结果
-                        if (!searchTerm) return;
-
-                        // 匹配包含关键词的文章
-                        const matchedArticles = allArticles.filter(article => 
-                            article.title.toLowerCase().includes(searchTerm) || 
-                            article.content.includes(searchTerm) ||
-                            article.category.toLowerCase().includes(searchTerm)
-                        );
-
-                        // 显示搜索结果
-                        if (matchedArticles.length > 0) {
-                            matchedArticles.forEach(article => {
-                                const resultItem = document.createElement('div');
-                                resultItem.className = 'p-3 border-b border-gray-100 last:border-0';
-                                resultItem.innerHTML = `
-                                    <h4 class="font-medium">
-                                        <a href="${article.url}" class="hover:text-primary transition-colors">${highlightMatch(article.title, searchTerm)}</a>
-                                    </h4>
-                                    <div class="flex items-center text-sm text-gray-500 mt-1">
-                                        <span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-xs">${article.category}</span>
-                                        <span class="ml-auto">${article.date}</span>
-                                    </div>
-                                    <p class="text-sm text-gray-600 mt-2">${getPreviewText(article.content, searchTerm)}</p>
-                                `;
-                                resultsContainer.appendChild(resultItem);
-                            });
-                        } else {
-                            // 没有匹配结果
-                            resultsContainer.innerHTML = `
-                                <div class="text-center py-4 text-gray-500">
-                                    <i class="fa fa-search-minus mb-2"></i>
-                                    <p>没有找到包含"${searchTerm}"的文章</p>
-                                </div>
-                            `;
-                        }
-                    }
-
-                    // 高亮显示匹配的关键词
-                    function highlightMatch(text, term) {
-                        if (!term) return text;
-                        const regex = new RegExp(`(${term})`, 'gi');
-                        return text.replace(regex, '<span class="bg-yellow-200">$1</span>');
-                    }
-
-                    // 获取包含关键词的预览文本
-                    function getPreviewText(content, term) {
-                        const plainText = content.replace(/#|##|###|\*|_/g, ''); // 移除Markdown格式
-                        const termIndex = plainText.indexOf(term);
-                        
-                        if (termIndex === -1) {
-                            // 没有关键词时显示开头部分
-                            return plainText.length > 100 ? plainText.substring(0, 100) + '...' : plainText;
-                        } else {
-                            // 显示关键词前后的内容
-                            const start = Math.max(0, termIndex - 50);
-                            const end = Math.min(plainText.length, termIndex + 50);
-                            return (start > 0 ? '...' : '') + 
-                                plainText.substring(start, end) + 
-                                (end < plainText.length ? '...' : '');
-                        }
-                    }
-                    </script>
-
-                    <!--   <div class="lg:w-1/3">
-                         < #搜索框  >
-                        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
-                            <h3 class="text-lg font-bold mb-4">搜索文章</h3>
-                            <div class="flex">
-                                <input type="text" placeholder="输入关键词..." class="flex-1 px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary">
-                                <button class="bg-primary text-white px-4 py-2 rounded-r-lg hover:bg-primary/90 transition-colors">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    -->
-
-                        <!-- 标签云 -->
-                        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
-                            <h3 class="text-lg font-bold mb-4">标签</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <a href="#" class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">小说 (3)</a>
-                                <a href="#" class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">散文 (2)</a>
-                                <a href="#" class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">科普 (2)</a>
-                                <a href="#" class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">历史 (1)</a>
-                                <a href="#" class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">哲学 (1)</a>
-                                <a href="#" class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-primary hover:text-white transition-colors">传记 (1)</a>
-                            </div>
-                        </div>
-
-                        <!-- 推荐阅读 
-                        <div class="bg-white p-6 rounded-xl shadow-md">
-                            <h3 class="text-lg font-bold mb-4">Recommend reading</h3>
-                            <div class="space-y-4">
-                                <a href="#" class="flex gap-3 group">
-                                    <img src="assets/images/books/sidebar1.jpg" alt="《局外人》书籍封面" class="w-20 h-20 object-cover rounded">
-                                    <div>
-                                        <h4 class="font-medium group-hover:text-primary transition-colors">《局外人》：荒诞世界的清醒者</h4>
-                                        <p class="text-sm text-gray-500 mt-1">2023-04-18</p>
-                                    </div>
-                                </a>
-                                <a href="#" class="flex gap-3 group">
-                                    <img src="assets/images/books/sidebar2.jpg" alt="《你当像鸟飞往你的山》书籍封面" class="w-20 h-20 object-cover rounded">
-                                    <div>
-                                        <h4 class="font-medium group-hover:text-primary transition-colors">《你当像鸟飞往你的山》：教育的力量</h4>
-                                        <p class="text-sm text-gray-500 mt-1">2023-03-25</p>
-                                    </div>
-                                </a>
-                                <a href="#" class="flex gap-3 group">
-                                    <img src="assets/images/books/sidebar3.jpg" alt="《月亮与六便士》书籍封面" class="w-20 h-20 object-cover rounded">
-                                    <div>
-                                        <h4 class="font-medium group-hover:text-primary transition-colors">《月亮与六便士》：理想与现实</h4>
-                                        <p class="text-sm text-gray-500 mt-1">2023-02-10</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>-->
                     </div>
                 </div>
             </div>
@@ -459,7 +273,6 @@
     </main>
 
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/category.js"></script>
 </body>
 </html>
     

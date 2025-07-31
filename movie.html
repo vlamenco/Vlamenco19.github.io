@@ -46,6 +46,9 @@
             .tag-pill-inactive {
                 @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
             }
+            .rating-badge {
+                @apply absolute bottom-4 right-4 bg-accent text-dark font-bold px-3 py-1 rounded-full text-sm shadow-md;
+            }
         }
     </style>
 </head>
@@ -144,7 +147,7 @@
                 <h1 class="text-4xl font-bold mb-2 flex items-center">
                     <i class="fa fa-film mr-3"></i> Movie
                 </h1>
-                <p class="text-lg opacity-90">电影评论、推荐和观影感受</p>
+                <p class="text-lg opacity-90">pleasures of sound and sight</p>
             </div>
         </header>
 
@@ -153,7 +156,7 @@
             <div class="max-w-6xl mx-auto">
                 <div class="flex flex-col lg:flex-row gap-8">
                     <!-- 文章列表 -->
-                    <div class="lg:w-2/3">
+                    <div class="lg:w-full">
                         <!-- 标签筛选 -->
                         <div class="flex flex-wrap gap-2 mb-8">
                             <span class="tag-pill tag-pill-active">全部 (15)</span>
@@ -166,7 +169,12 @@
 
                         <!-- 文章列表 -->
                         <div class="space-y-8">
-                            <article class="bg-white rounded-xl overflow-hidden shadow-md hover-lift">
+                            <article class="bg-white rounded-xl overflow-hidden shadow-md hover-lift relative">
+                                <!-- 评分标签 - 右下角 -->
+                                <div class="rating-badge">
+                                    <i class="fa fa-star mr-1"></i>9.2
+                                </div>
+                                
                                 <div class="md:flex">
                                     <div class="md:w-1/3">
                                         <img src="assets/images/movies/movie1.jpg" alt="电影海报" class="w-full h-full object-cover">
@@ -183,7 +191,12 @@
                                 </div>
                             </article>
 
-                            <article class="bg-white rounded-xl overflow-hidden shadow-md hover-lift">
+                            <article class="bg-white rounded-xl overflow-hidden shadow-md hover-lift relative">
+                                <!-- 评分标签 - 右下角 -->
+                                <div class="rating-badge">
+                                    <i class="fa fa-star mr-1"></i>8.7
+                                </div>
+                                
                                 <div class="md:flex">
                                     <div class="md:w-1/3">
                                         <img src="assets/images/movies/movie2.jpg" alt="纪录片海报" class="w-full h-full object-cover">
@@ -200,7 +213,12 @@
                                 </div>
                             </article>
 
-                            <article class="bg-white rounded-xl overflow-hidden shadow-md hover-lift">
+                            <article class="bg-white rounded-xl overflow-hidden shadow-md hover-lift relative">
+                                <!-- 评分标签 - 右下角 -->
+                                <div class="rating-badge">
+                                    <i class="fa fa-star mr-1"></i>8.9
+                                </div>
+                                
                                 <div class="md:flex">
                                     <div class="md:w-1/3">
                                         <img src="assets/images/movies/movie3.jpg" alt="科幻电影海报" class="w-full h-full object-cover">
@@ -239,93 +257,19 @@
                             </nav>
                         </div>
                     </div>
-
-                    <!-- 侧边栏 -->
-                    <div class="lg:w-1/3">
-                        <!-- 搜索框 -->
-                        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
-                            <h3 class="text-lg font-bold mb-4">搜索文章</h3>
-                            <div class="flex">
-                                <input type="text" placeholder="输入关键词..." class="flex-1 px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-mint">
-                                <button class="bg-mint text-dark px-4 py-2 rounded-r-lg hover:bg-mint/90 transition-colors">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- 标签云 -->
-                        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
-                            <h3 class="text-lg font-bold mb-4">标签</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <a href="#" class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-mint hover:text-dark transition-colors">剧情 (5)</a>
-                                <a href="#" class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-mint hover:text-dark transition-colors">纪录片 (3)</a>
-                                <a href="#" class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-mint hover:text-dark transition-colors">科幻 (2)</a>
-                                <a href="#" class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-mint hover:text-dark transition-colors">悬疑 (3)</a>
-                                <a href="#" class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-mint hover:text-dark transition-colors">动画 (2)</a>
-                                <a href="#" class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-mint hover:text-dark transition-colors">经典 (4)</a>
-                            </div>
-                        </div>
-
-                        <!-- 推荐阅读 -->
-                        <div class="bg-white p-6 rounded-xl shadow-md">
-                            <h3 class="text-lg font-bold mb-4">推荐阅读</h3>
-                            <div class="space-y-4">
-                                <a href="#" class="flex gap-3 group">
-                                    <img src="assets/images/movies/sidebar1.jpg" alt="电影海报" class="w-20 h-20 object-cover rounded">
-                                    <div>
-                                        <h4 class="font-medium group-hover:text-mint transition-colors">《蜘蛛侠：纵横宇宙》的视觉革命</h4>
-                                        <p class="text-sm text-gray-500 mt-1">2023-05-15</p>
-                                    </div>
-                                </a>
-                                <a href="#" class="flex gap-3 group">
-                                    <img src="assets/images/movies/sidebar2.jpg" alt="电影海报" class="w-20 h-20 object-cover rounded">
-                                    <div>
-                                        <h4 class="font-medium group-hover:text-mint transition-colors"> Wong Kar-wai的光影世界</h4>
-                                        <p class="text-sm text-gray-500 mt-1">2023-04-22</p>
-                                    </div>
-                                </a>
-                                <a href="#" class="flex gap-3 group">
-                                    <img src="assets/images/movies/sidebar3.jpg" alt="电影海报" class="w-20 h-20 object-cover rounded">
-                                    <div>
-                                        <h4 class="font-medium group-hover:text-mint transition-colors">《寄生虫》中的阶级隐喻分析</h4>
-                                        <p class="text-sm text-gray-500 mt-1">2023-03-18</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
 
         <!-- 页脚 -->
-        <footer class="bg-dark text-white py-12 px-6 mt-16">
+        <footer class="bg-dark text-white py-12 px-6">
             <div class="max-w-6xl mx-auto">
                 <div class="flex flex-col md:flex-row justify-between items-center">
                     <div class="mb-6 md:mb-0">
-                        <h3 class="text-xl font-bold mb-2">Vlamenco's Blog</h3>
-                        <p class="text-gray-400">分享生活的美好瞬间</p>
+                        <h3 class="text-xl font-bold mb-2">Vlamenco's Venus Zoom</h3>
+                        <p class="text-gray-400">@2047</p>
                     </div>
-                    
-                    <div class="flex flex-col items-center md:items-end">
-                        <div class="flex space-x-4 mb-4">
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                                <i class="fa fa-douban"></i>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                                <i class="fa fa-book"></i>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                                <i class="fa fa-globe"></i>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                                <i class="fa fa-play-circle"></i>
-                            </a>
-                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                                <i class="fa fa-github"></i>
-                            </a>
-                        </div>
-                        <p class="text-gray-400 text-sm">© 2023 Vlamenco's Blog. All rights reserved.</p>
+                        <p class="text-gray-400 text-sm">© 2025 Vlamenco's Venus Zoom. All rights reserved.</p>
                     </div>
                 </div>
             </div>
@@ -333,7 +277,4 @@
     </main>
 
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/category.js"></script>
-</body>
-</html>
     
